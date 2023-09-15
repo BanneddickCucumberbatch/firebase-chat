@@ -1,24 +1,32 @@
-import logo from './logo.svg';
+import React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './App.css';
+import Navbar from './components/Navbar'
+import AppRouter from './components/AppRouter';
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '.';
+import Loader from './components/Loader';
 
-function App() {
+const App = () => {
+
+  const {auth} = useContext(Context);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (auth && !auth.currentUser)
+    setLoading(false)
+  console.log(auth)
+  }, [auth])
+
+  if (loading) {
+    return <Loader />
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar></Navbar>
+      <AppRouter />
+    </Router>
   );
 }
 
